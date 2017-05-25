@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net"
@@ -28,7 +29,7 @@ const outputTmpl = `
 			text-align: center;
 		}
 		.info {
-			margin-top: 25px;
+			margin-top: 75px;
 		}
 	</style>
 	<body>
@@ -97,5 +98,13 @@ func main() {
 	})
 	go http.Serve(l, handler)
 
-	open.Run("http://localhost:8087")
+	err = open.Run("http://localhost:8087")
+	if err != nil {
+		// fallback to console.
+		fmt.Println("Seed:", seedStr)
+		fmt.Println("Addresses:")
+		for _, address := range addresses {
+			fmt.Println(address)
+		}
+	}
 }
