@@ -19,16 +19,34 @@ const outputTmpl = `
 	<head>
 		<title> Sia Cold Storage </title>
 	</head>
+	<style>
+		body {
+			font-family: "Gotham A", "Gotham B", Helvetica, Arial, sans-serif;
+			margin-left: auto;
+			margin-right: auto;
+			max-width: 900px;
+			text-align: center;
+		}
+		.info {
+			margin-top: 25px;
+		}
+	</style>
 	<body>
 		<h3>Sia cold wallet successfully generated.</h3>
-		<p> Please save the information below in a safe place. You can use the Seed to recover any money sent to any of the addresses, without the wallet being online. </p>
-		<h4>Seed: </h4>
-		<p>{{.Seed}}</p>
-		<h4>Addresses: </h4>
-		<ul>
-		{{ range .Addresses }}
-			<li>{{.}}</li>
-		{{ end }}
+		<p> Please save the information below in a safe place. You can use the Seed to recover any money sent to any of the addresses, without an online or synced wallet. Make sure to keep the seed safe, and secret.</p>
+		<section class="info">
+			<section class="seed">
+				<h4>Seed: </h4>
+				<p>{{.Seed}}</p>
+			</section>
+			<section class="addresses">
+				<h4>Addresses: </h4>
+				<ul>
+				{{ range .Addresses }}
+					<li>{{.}}</li>
+				{{ end }}
+			</section>
+		</section>
 	</body>
 </html>
 `
