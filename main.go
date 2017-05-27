@@ -92,9 +92,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	done := make(chan struct{})
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		t.Execute(w, templateData)
 		l.Close()
+		close(done)
 	})
 	go http.Serve(l, handler)
 
@@ -107,4 +110,5 @@ func main() {
 			fmt.Println(address)
 		}
 	}
+	<-done
 }
