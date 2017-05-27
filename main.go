@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
 
 	"github.com/skratchdot/open-golang/open"
 
@@ -103,12 +104,14 @@ func main() {
 
 	err = open.Run("http://localhost:8087")
 	if err != nil {
-		// fallback to console.
+		// fallback to console, clean up the server and exit
+		l.Close()
 		fmt.Println("Seed:", seedStr)
 		fmt.Println("Addresses:")
 		for _, address := range addresses {
 			fmt.Println(address)
 		}
+		os.Exit(0)
 	}
 	<-done
 }
