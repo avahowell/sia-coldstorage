@@ -1,16 +1,17 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"log"
 	"os"
+
 	"github.com/NebulousLabs/Sia/crypto"
 	"github.com/NebulousLabs/Sia/modules"
 	"github.com/NebulousLabs/Sia/types"
 	"github.com/NebulousLabs/fastrand"
 )
 
-const nAddresses = 20;
+const nAddresses = 20
 
 // getAddress returns an address generated from a seed at the index specified
 // by `index`.
@@ -39,21 +40,11 @@ func main() {
 		addresses = append(addresses, getAddress(seed, i))
 	}
 
-	// @todo review go docs and figure out a better
-	// method of doing this so it is cleaner.
-	// this is just a dirty hack to get things working
-	fmt.Println("{");
-	fmt.Println("    \"seed\": \"" + seedStr + "\", ");
-	fmt.Println("    \"addresses\": [");
-
-	//print addresses
-	for _, address := range addresses {
-		fmt.Println("        \"", address, "\",");
-	}
-
-	// close JSON object
-	fmt.Println("    ]\n}");
-
-	// exit application
-	os.Exit(0)
+	enc := json.NewEncoder(os.Stdout)
+	enc.SetIndent("", "  ")
+	outputData := struct {
+		Seed      string
+		Addresses []types.UnlockHash
+	}{seedStr, addresses}
+	enc.Encode(outputData)
 }
