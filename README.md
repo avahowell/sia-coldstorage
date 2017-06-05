@@ -2,11 +2,26 @@
 
 `sia-coldstorage-json` is a utility that generates a seed and a collection of addresses for a Sia wallet, without the blockchain. This is useful for creating 'cold wallets'. This utility is forked from `sia-coldstorage` (https://github.com/johnathanhowell/sia-coldstorage) for the purpose or returning the seed and addresses as a JSON object that can be used to create a paper wallet web utlity for Siacoin.
 
+## REQUIREMENTS
+
+To build you're going to need to have `Go` (https://golang.org/).
+
 ## USAGE
 
-Download the latest release for your platform, then navigate to the binary in your terminal and run `./sia-coldstorage-json`.
+Download the latest release for your platform, then navigate to the binary in your terminal and build the application
+
+```
+go build
+```
+
+Once it is built you can run the binary in your terminal
+
+```
+./sia-coldstorage-json
+```
+
 This will generate your seed and addresses, returning it to you in JSON format. Ideally, you would run this on a
-system that was very secure, i.e. an airgapped LiveCD or through a service like Amazon Lambda to generate through an online web app.
+system that was very secure, i.e. an airgapped LiveCD or through a service like Amazon Lambda to generate through an online web app. Make sure to write these down if you are using it for your own personal use. There are no ways to recover lost seeds!
 
 ## NOTE
 
