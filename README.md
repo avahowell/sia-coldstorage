@@ -4,10 +4,12 @@ sia-coldstorage is a utility that generates a seed and a collection of addresses
 
 ## USAGE
 
-Download the latest release for your platform, then double click the
-`sia-coldstorage` binary. This will generate your seed and addresses, opening
-up a page in your web browser to display them. Ideally, you would run this on a
-system that was very secure, i.e. an airgapped LiveCD. 
+Download the latest
+[release](https://github.com/avahowell/sia-coldstorage/releases) for your
+platform, then double click the `sia-coldstorage` binary. This will generate
+your seed and addresses, opening up a page in your web browser to display them.
+Ideally, you would run this on a system that was very secure, i.e. an airgapped
+LiveCD. 
 
 
 ## LICENSE
