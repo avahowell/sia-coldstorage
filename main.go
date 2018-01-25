@@ -20,7 +20,7 @@ import (
 const outputTmpl = `
 <html>
 	<head>
-		<title> Sia Cold Storage </title>
+		<title> Sia Cold Storage Wallet </title>
 	</head>
 	<style>
 		body {
@@ -28,31 +28,31 @@ const outputTmpl = `
 			margin-left: auto;
 			margin-right: auto;
 			max-width: 900px;
-			text-align: center;
+			text-align: left;
 		}
 		.info {
 			margin-top: 75px;
 		}
 	</style>
 	<body>
-		<h3>Sia cold wallet successfully generated</h3>
-		<p> Please save the information below in a safe place. You can use the Seed to recover any money sent to any of the addresses, without an online or synced wallet. Make sure to keep the seed safe, and secret.</p>
-		<section class="info">
-			<section class="seed">
-				<h4>Seed: </h4>
-				<p><font size="+1">{{.Seed}}</font></p>
-			</section>
-			<section class="addresses">
-				<h4>Addresses: </h4>
-				<ol>
-				<font size="+1">
-				<code>
-				{{ range .Addresses }}
-					<li>{{.}}</li>
-				{{ end }}
-				</code>
-				</font>
-			</section>
+		<h2 align="center">Sia Cold Storage Wallet</h3>
+		<section class="warning">
+			<p>Please save the information below in a safe place. You can use the Seed to recover any money sent to any of the addresses, without an online or synced wallet. Make sure to keep the seed safe, and secret.</p>
+		</section>
+		<section class="seed">
+			<h4>Seed</h4>
+			<p><font size="+1">{{.Seed}}</font></p>
+		</section>
+		<section class="addresses">
+			<h4>Addresses</h4>
+			<ol>
+			<font size="+2">
+			<code>
+			{{ range .Addresses }}
+				<li>{{.}}</li>
+			{{ end }}
+			</code>
+			</font>
 		</section>
 	</body>
 </html>
