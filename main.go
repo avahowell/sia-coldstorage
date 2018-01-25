@@ -7,6 +7,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/skratchdot/open-golang/open"
 
@@ -66,14 +67,35 @@ func getAddress(seed modules.Seed, index uint64) types.UnlockHash {
 }
 
 func main() {
-	// generate a seed and a few addresses from that seed
 	var seed modules.Seed
-	fastrand.Read(seed[:])
-	var addresses []types.UnlockHash
-	seedStr, err := modules.SeedToString(seed, "english")
-	if err != nil {
-		log.Fatal(err)
+	var seedStr string
+
+	// get a seed
+	var seedErr error
+	if len(os.Args) > 1 {
+		// non-zero arguments: read seed words
+		var words []string
+		if len(os.Args[1:]) == 1 {
+			words = strings.Fields(os.Args[1])
+		} else {
+			words = os.Args[1:]
+		}
+		if len(words) != 29 {
+			log.Fatal("29 seed words required")
+		}
+		seedStr = strings.Join(words[:], " ")
+		seed, seedErr = modules.StringToSeed(seedStr, "english")
+	} else {
+		// zero arguments: generate a seed
+		fastrand.Read(seed[:])
+		seedStr, seedErr = modules.SeedToString(seed, "english")
 	}
+	if seedErr != nil {
+		log.Fatal(seedErr)
+	}
+
+	// generate a few addresses from that seed
+	var addresses []types.UnlockHash
 	for i := uint64(0); i < nAddresses; i++ {
 		addresses = append(addresses, getAddress(seed, i))
 	}
