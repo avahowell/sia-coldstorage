@@ -35,19 +35,23 @@ const outputTmpl = `
 		}
 	</style>
 	<body>
-		<h3>Sia cold wallet successfully generated.</h3>
+		<h3>Sia cold wallet successfully generated</h3>
 		<p> Please save the information below in a safe place. You can use the Seed to recover any money sent to any of the addresses, without an online or synced wallet. Make sure to keep the seed safe, and secret.</p>
 		<section class="info">
 			<section class="seed">
 				<h4>Seed: </h4>
-				<p>{{.Seed}}</p>
+				<p><font size="+1">{{.Seed}}</font></p>
 			</section>
 			<section class="addresses">
 				<h4>Addresses: </h4>
-				<ul>
+				<ol>
+				<font size="+1">
+				<code>
 				{{ range .Addresses }}
 					<li>{{.}}</li>
 				{{ end }}
+				</code>
+				</font>
 			</section>
 		</section>
 	</body>
