@@ -7,6 +7,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/skratchdot/open-golang/open"
 
@@ -19,7 +20,7 @@ import (
 const outputTmpl = `
 <html>
 	<head>
-		<title> Sia Cold Storage </title>
+		<title> Sia Cold Storage Wallet </title>
 	</head>
 	<style>
 		body {
@@ -27,27 +28,31 @@ const outputTmpl = `
 			margin-left: auto;
 			margin-right: auto;
 			max-width: 900px;
-			text-align: center;
+			text-align: left;
 		}
 		.info {
 			margin-top: 75px;
 		}
 	</style>
 	<body>
-		<h3>Sia cold wallet successfully generated.</h3>
-		<p> Please save the information below in a safe place. You can use the Seed to recover any money sent to any of the addresses, without an online or synced wallet. Make sure to keep the seed safe, and secret.</p>
-		<section class="info">
-			<section class="seed">
-				<h4>Seed: </h4>
-				<p>{{.Seed}}</p>
-			</section>
-			<section class="addresses">
-				<h4>Addresses: </h4>
-				<ul>
-				{{ range .Addresses }}
-					<li>{{.}}</li>
-				{{ end }}
-			</section>
+		<h2 align="center">Sia Cold Storage Wallet</h3>
+		<section class="warning">
+			<p>Please save the information below in a safe place. You can use the Seed to recover any money sent to any of the addresses, without an online or synced wallet. Make sure to keep the seed safe, and secret.</p>
+		</section>
+		<section class="seed">
+			<h4>Seed</h4>
+			<p><font size="+1">{{.Seed}}</font></p>
+		</section>
+		<section class="addresses">
+			<h4>Addresses</h4>
+			<ol>
+			<font size="+2">
+			<code>
+			{{ range .Addresses }}
+				<li>{{.}}</li>
+			{{ end }}
+			</code>
+			</font>
 		</section>
 	</body>
 </html>
@@ -66,14 +71,35 @@ func getAddress(seed modules.Seed, index uint64) types.UnlockHash {
 }
 
 func main() {
-	// generate a seed and a few addresses from that seed
 	var seed modules.Seed
-	fastrand.Read(seed[:])
-	var addresses []types.UnlockHash
-	seedStr, err := modules.SeedToString(seed, "english")
-	if err != nil {
-		log.Fatal(err)
+	var seedStr string
+
+	// get a seed
+	var seedErr error
+	if len(os.Args) > 1 {
+		// non-zero arguments: read seed words
+		var words []string
+		if len(os.Args[1:]) == 1 {
+			words = strings.Fields(os.Args[1])
+		} else {
+			words = os.Args[1:]
+		}
+		if len(words) != 29 {
+			log.Fatal("29 seed words required")
+		}
+		seedStr = strings.Join(words[:], " ")
+		seed, seedErr = modules.StringToSeed(seedStr, "english")
+	} else {
+		// zero arguments: generate a seed
+		fastrand.Read(seed[:])
+		seedStr, seedErr = modules.SeedToString(seed, "english")
 	}
+	if seedErr != nil {
+		log.Fatal(seedErr)
+	}
+
+	// generate a few addresses from that seed
+	var addresses []types.UnlockHash
 	for i := uint64(0); i < nAddresses; i++ {
 		addresses = append(addresses, getAddress(seed, i))
 	}
