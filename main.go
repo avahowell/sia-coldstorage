@@ -37,7 +37,7 @@ const outputTmpl = `
 	<body>
 		<h2 align="center">Sia Cold Storage Wallet</h3>
 		<section class="warning">
-			<p>Please save the information below in a safe place. You can use the Seed to recover any money sent to any of the addresses, without an online or synced wallet. Make sure to keep the seed safe, and secret.</p>
+			<p> Please write down your seed. Take care not to expose your seed to any potentially insecure device, such as a traditional computer printer. Anyone can use the Seed to recover any Siacoin sent to any of the addresses, without an online or synced wallet. Make sure to keep the seed safe, and secret.</p>
 		</section>
 		<section class="seed">
 			<h4>Seed</h4>
