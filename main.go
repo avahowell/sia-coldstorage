@@ -55,6 +55,15 @@ const outputTmpl = `
 			</font>
 		</section>
 	</body>
+	<script>
+		window.addEventListener("keydown", function(e) {
+			// disable ctrl-p to prevent bad decisions
+			if (e.ctrlKey && e.keyCode == 80) {
+				e.preventDefault();
+				alert("please write down your seed.");
+			}
+		})
+	</script>
 </html>
 `
 
